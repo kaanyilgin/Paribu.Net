@@ -67,7 +67,7 @@ namespace Paribu.Net
         public virtual WebCallResult<ParibuInitials> GetInitials(CancellationToken ct = default) => GetInitialsAsync(ct).Result;
         public virtual async Task<WebCallResult<ParibuInitials>> GetInitialsAsync(CancellationToken ct = default)
         {
-            var result = await SendRequest<ParibuApiResponse<ParibuInitials>>(GetUrl(Endpoints_Public_Initials), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
+            var result = await SendRequestAsync<ParibuApiResponse<ParibuInitials>>(GetUrl(Endpoints_Public_Initials), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<ParibuInitials>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
 
             return new WebCallResult<ParibuInitials>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -76,7 +76,7 @@ namespace Paribu.Net
         public virtual WebCallResult<Dictionary<string, ParibuTicker>> GetTickers(CancellationToken ct = default) => GetTickersAsync(ct).Result;
         public virtual async Task<WebCallResult<Dictionary<string, ParibuTicker>>> GetTickersAsync(CancellationToken ct = default)
         {
-            var result = await SendRequest<ParibuTickers>(GetUrl(Endpoints_Public_Ticker), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
+            var result = await SendRequestAsync<ParibuTickers>(GetUrl(Endpoints_Public_Ticker), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<Dictionary<string, ParibuTicker>>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
 
             return new WebCallResult<Dictionary<string, ParibuTicker>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data.Data, null);
@@ -92,7 +92,7 @@ namespace Paribu.Net
             {
                 { "interval", "1d" },
             };
-            var result = await SendRequest<ParibuApiResponse<MarketData>>(GetUrl(Endpoints_Public_Markets.Replace("{pair}", pair.ToLower())), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false, parameters: parameters).ConfigureAwait(false);
+            var result = await SendRequestAsync<ParibuApiResponse<MarketData>>(GetUrl(Endpoints_Public_Markets.Replace("{pair}", pair.ToLower())), method: HttpMethod.Get, cancellationToken: ct, checkResult: false, signed: false, parameters: parameters).ConfigureAwait(false);
             if (!result.Success) return WebCallResult<ParibuMarketData>.CreateErrorResult(result.ResponseStatusCode, result.ResponseHeaders, result.Error);
 
             var pmd = new ParibuMarketData

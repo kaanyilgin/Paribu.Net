@@ -82,7 +82,7 @@ namespace Paribu.Net.Examples
             });
 
             // Unsubscribe
-            _ = ws.Unsubscribe(sub02.Data);
+            _ = ws.UnsubscribeAsync(sub02.Data);
 
             // Console.WriteLine("Done");
             Console.ReadLine();

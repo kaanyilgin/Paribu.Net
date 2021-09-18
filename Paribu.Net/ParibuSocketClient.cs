@@ -67,9 +67,9 @@ namespace Paribu.Net
         public virtual CallResult<UpdateSubscription> SubscribeToTickers(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData) => SubscribeToTickersAsync(onTickerData, onPriceSeriesData).Result;
         public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickersAsync(Action<ParibuSocketTicker> onTickerData, Action<ParibuSocketPriceSeries> onPriceSeriesData)
         {
-            var internalHandler = new Action<ParibuSocketResponse>(data =>
+            var internalHandler = new Action<DataEvent<ParibuSocketResponse>>(data =>
             {
-                var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketTickers>>>(data.Data);
+                var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketTickers>>>(data.Data.Data);
                 foreach (var ticker in json.Patch.Merge.Data)
                 {
                     if (ticker.Value.PriceSeries != null && ticker.Value.PriceSeries.Count() > 0)
@@ -89,19 +89,19 @@ namespace Paribu.Net
             });
 
             var request = new ParibuSocketRequest<ParibuSocketSubscribeRequest> { Event = "pusher:subscribe", Data = new ParibuSocketSubscribeRequest { Auth = "", Channel = "prb-public" } };
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         public virtual CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
         public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
         {
-            var internalHandler = new Action<ParibuSocketResponse>(data =>
+            var internalHandler = new Action<DataEvent<ParibuSocketResponse>>(data =>
             {
-                var patch = JsonConvert.DeserializeObject<SocketPatch<object>>(data.Data);
+                var patch = JsonConvert.DeserializeObject<SocketPatch<object>>(data.Data.Data);
                 if (patch.Index == "orderBook")
                 {
                     var pob = new ParibuSocketOrderBook { Pair = pair };
-                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketOrderBook>>>(data.Data.Replace(",\"merge\":[],", ",\"merge\":{},"));
+                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketOrderBook>>>(data.Data.Data.Replace(",\"merge\":[],", ",\"merge\":{},"));
 
                     if (json.Patch.Merge.Asks != null && json.Patch.Merge.Asks.Data != null && json.Patch.Merge.Asks.Data.Count > 0)
                         foreach (var ask in json.Patch.Merge.Asks.Data)
@@ -128,7 +128,7 @@ namespace Paribu.Net
                 }
                 else if (patch.Index == "marketMatches")
                 {
-                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<IEnumerable<ParibuSocketTrade>>>>(data.Data);
+                    var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<IEnumerable<ParibuSocketTrade>>>>(data.Data.Data);
                     foreach (var trade in json.Patch.Merge)
                     {
                         trade.Pair = pair;
@@ -138,7 +138,7 @@ namespace Paribu.Net
             });
 
             var request = new ParibuSocketRequest<ParibuSocketSubscribeRequest> { Event = "pusher:subscribe", Data = new ParibuSocketSubscribeRequest { Auth = "", Channel = "prb-market-" + pair.ToLower() } };
-            return await Subscribe(request, null, false, internalHandler).ConfigureAwait(false);
+            return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 
         #region Core Methods
@@ -149,13 +149,13 @@ namespace Paribu.Net
             return ++iterator;
         }
 
-        protected virtual void WelcomeHandler(SocketConnection connection, JToken data)
+        protected virtual void WelcomeHandler(MessageEvent messageEvent)
         {
-            if (data["event"] != null && (string)data["event"] == "pusher:connection_established")
+            if (messageEvent.JsonData["event"] != null && (string)messageEvent.JsonData["event"] == "pusher:connection_established")
                 return;
         }
 
-        protected override SocketConnection GetWebsocket(string address, bool authenticated)
+        protected override SocketConnection GetSocketConnection(string address, bool authenticated)
         {
             return this.ParibuGetWebsocket(address, authenticated);
         }
@@ -165,11 +165,11 @@ namespace Paribu.Net
             var socketResult = sockets.Where(s =>
                 s.Value.Socket.Url.TrimEnd('/') == address.TrimEnd('/') &&
                 (s.Value.Authenticated == authenticated || !authenticated) &&
-                s.Value.Connected).OrderBy(s => s.Value.HandlerCount).FirstOrDefault();
+                s.Value.Connected).OrderBy(s => s.Value.SubscriptionCount).FirstOrDefault();
             var result = socketResult.Equals(default(KeyValuePair<int, SocketConnection>)) ? null : socketResult.Value;
             if (result != null)
             {
-                if (result.HandlerCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.HandlerCount >= SocketCombineTarget)))
+                if (result.SubscriptionCount < SocketCombineTarget || (sockets.Count >= MaxSocketConnections && sockets.All(s => s.Value.SubscriptionCount >= SocketCombineTarget)))
                 {
                     // Use existing socket if it has less than target connections OR it has the least connections and we can't make new
                     return result;
@@ -178,14 +178,15 @@ namespace Paribu.Net
 
             // Create new socket
             var socket = CreateSocket(address);
-            var socketWrapper = new SocketConnection(this, socket);
+            var socketConnection = new SocketConnection(this, socket);
+            socketConnection.UnhandledMessage += HandleUnhandledMessage;
             foreach (var kvp in genericHandlers)
             {
-                var handler = SocketSubscription.CreateForIdentifier(kvp.Key, false, kvp.Value);
-                socketWrapper.AddHandler(handler);
+                var handler = SocketSubscription.CreateForIdentifier(NextId(), kvp.Key, false, kvp.Value);
+                socketConnection.AddSubscription(handler);
             }
 
-            return socketWrapper;
+            return socketConnection;
         }
 
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
@@ -260,7 +261,7 @@ namespace Paribu.Net
             return true;
         }
 
-        protected override async Task<bool> Unsubscribe(SocketConnection connection, SocketSubscription s)
+        protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription s)
         {
             return await this.ParibuUnsubscribe(connection, s);
         }
@@ -270,7 +271,7 @@ namespace Paribu.Net
                 return false;
 
             var request = new ParibuSocketRequest<ParibuSocketSubscribeRequest> { Event = "pusher:unsubscribe", Data = new ParibuSocketSubscribeRequest { Auth = "", Channel = ((ParibuSocketRequest<ParibuSocketSubscribeRequest>)s.Request).Data.Channel } };
-            await connection.SendAndWait(request, ResponseTimeout, data =>
+            await connection.SendAndWaitAsync(request, ResponseTimeout, data =>
             {
                 return true;
             });
@@ -278,7 +279,7 @@ namespace Paribu.Net
             return false;
         }
 
-        protected override Task<CallResult<bool>> AuthenticateSocket(SocketConnection s)
+        protected override Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
             return this.ParibuAuthenticateSocket(s);
         }
