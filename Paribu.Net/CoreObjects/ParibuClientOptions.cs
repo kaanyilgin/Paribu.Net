@@ -2,9 +2,9 @@
 
 namespace Paribu.Net.CoreObjects
 {
-    public class ParibuClientOptions: RestClientOptions
+    public class ParibuClientOptions : RestClientOptions
     {
-        public ParibuClientOptions():base("https://www.paribu.com")
+        public ParibuClientOptions() : base("https://v3.paribu.com/app")
         {
         }
 

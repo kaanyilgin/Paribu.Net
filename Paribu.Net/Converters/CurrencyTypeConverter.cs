@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.Converters
 {
-    public class CurrencyTypeConverter : BaseConverter<ParibuCurrencyType>
+    public class CurrencyTypeConverter : BaseConverter<CurrencyType>
     {
         public CurrencyTypeConverter() : this(true) { }
         public CurrencyTypeConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<ParibuCurrencyType, string>> Mapping => new List<KeyValuePair<ParibuCurrencyType, string>>
+        protected override List<KeyValuePair<CurrencyType, string>> Mapping => new List<KeyValuePair<CurrencyType, string>>
         {
-            new KeyValuePair<ParibuCurrencyType, string>(ParibuCurrencyType.Fiat, "fiat"),
-            new KeyValuePair<ParibuCurrencyType, string>(ParibuCurrencyType.Crypto, "crypto"),
+            new KeyValuePair<CurrencyType, string>(CurrencyType.Fiat, "fiat"),
+            new KeyValuePair<CurrencyType, string>(CurrencyType.Crypto, "crypto"),
         };
     }
 }

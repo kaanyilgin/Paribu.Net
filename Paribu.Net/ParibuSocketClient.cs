@@ -157,7 +157,7 @@ namespace Paribu.Net
 
         protected override SocketConnection GetSocketConnection(string address, bool authenticated)
         {
-            return this.ParibuGetWebsocket(address, authenticated);
+            return ParibuGetWebsocket(address, authenticated);
         }
         protected virtual SocketConnection ParibuGetWebsocket(string address, bool authenticated)
         {
@@ -191,7 +191,7 @@ namespace Paribu.Net
 
         protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
-            return this.ParibuHandleQueryResponse<T>(s, request, data, out  callResult);
+            return ParibuHandleQueryResponse<T>(s, request, data, out callResult);
         }
         protected virtual bool ParibuHandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
         {
@@ -201,7 +201,7 @@ namespace Paribu.Net
 
         protected override bool HandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
-            return this.ParibuHandleSubscriptionResponse(s, subscription, request, message, out callResult);
+            return ParibuHandleSubscriptionResponse(s, subscription, request, message, out callResult);
         }
         protected virtual bool ParibuHandleSubscriptionResponse(SocketConnection s, SocketSubscription subscription, object request, JToken message, out CallResult<object> callResult)
         {
@@ -230,7 +230,7 @@ namespace Paribu.Net
 
         protected override bool MessageMatchesHandler(JToken data, object request)
         {
-            return this.ParibuMessageMatchesHandler(data, request);
+            return ParibuMessageMatchesHandler(data, request);
         }
         protected virtual bool ParibuMessageMatchesHandler(JToken data, object request)
         {
@@ -254,7 +254,7 @@ namespace Paribu.Net
 
         protected override bool MessageMatchesHandler(JToken message, string identifier)
         {
-            return this.ParibuMessageMatchesHandler(message,identifier);
+            return ParibuMessageMatchesHandler(message, identifier);
         }
         protected virtual bool ParibuMessageMatchesHandler(JToken message, string identifier)
         {
@@ -263,7 +263,7 @@ namespace Paribu.Net
 
         protected override async Task<bool> UnsubscribeAsync(SocketConnection connection, SocketSubscription s)
         {
-            return await this.ParibuUnsubscribe(connection, s);
+            return await ParibuUnsubscribe(connection, s);
         }
         protected virtual async Task<bool> ParibuUnsubscribe(SocketConnection connection, SocketSubscription s)
         {
@@ -281,7 +281,7 @@ namespace Paribu.Net
 
         protected override Task<CallResult<bool>> AuthenticateSocketAsync(SocketConnection s)
         {
-            return this.ParibuAuthenticateSocket(s);
+            return ParibuAuthenticateSocket(s);
         }
         protected virtual Task<CallResult<bool>> ParibuAuthenticateSocket(SocketConnection s)
         {

@@ -8,7 +8,10 @@ namespace Paribu.Net.CoreObjects
         public bool Success { get; set; }
 
         [JsonProperty("message")]
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
+
+        [JsonProperty("notice")]
+        public string Notice { get; set; }
 
         [JsonProperty("data")]
         public T Data { get; set; }

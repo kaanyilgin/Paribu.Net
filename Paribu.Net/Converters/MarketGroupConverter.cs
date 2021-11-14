@@ -4,15 +4,16 @@ using System.Collections.Generic;
 
 namespace Paribu.Net.Converters
 {
-    public class MarketGroupConverter : BaseConverter<ParibuMarketGroup>
+    public class MarketGroupConverter : BaseConverter<MarketGroup>
     {
         public MarketGroupConverter() : this(true) { }
         public MarketGroupConverter(bool quotes) : base(quotes) { }
 
-        protected override List<KeyValuePair<ParibuMarketGroup, string>> Mapping => new List<KeyValuePair<ParibuMarketGroup, string>>
+        protected override List<KeyValuePair<MarketGroup, string>> Mapping => new List<KeyValuePair<MarketGroup, string>>
         {
-            new KeyValuePair<ParibuMarketGroup, string>(ParibuMarketGroup.CryptoTL, "crypto-tl"),
-            new KeyValuePair<ParibuMarketGroup, string>(ParibuMarketGroup.FanTokenCHZ, "fantoken-chz"),
+            new KeyValuePair<MarketGroup, string>(MarketGroup.CryptoTL, "crypto-tl"),
+            new KeyValuePair<MarketGroup, string>(MarketGroup.CryptoUSDT, "crypto-usdt"),
+            new KeyValuePair<MarketGroup, string>(MarketGroup.FanTokenCHZ, "fantoken-chz"),
         };
     }
 }

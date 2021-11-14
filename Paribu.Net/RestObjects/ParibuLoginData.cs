@@ -1,37 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Paribu.Net.Converters;
 using Paribu.Net.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace Paribu.Net.RestObjects
 {
-    public class ParibuChartData
-    {
-        public string Symbol { get; set; }
-
-        public ChartInterval Interval { get; set; }
-
-        public List<ParibuCandle> Candles { get; set; }
-
-        public ParibuChartData()
-        {
-            Candles = new List<ParibuCandle>();
-        }
-    }
-
-    public class ParibuCandle
-    {
-        public int OpenTime { get; set; }
-
-        public DateTime OpenDateTime { get; set; }
-
-        public decimal ClosePrice { get; set; }
-
-        public decimal Volume { get; set; }
-    }
-
-    internal class ChartData
+    public class ParibuLoginData
     {
         [JsonProperty("market")]
         public string Symbol { get; set; }

@@ -24,7 +24,7 @@ namespace Paribu.Net.SocketObjects
     public class ParibuSocketOrderBookEntry
     {
         public decimal Amount { get; set; }
-     
+
         public decimal Price { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Paribu.Net.SocketObjects
 
         [JsonProperty("v")]
         public decimal? Volume { get; set; }
-        
+
         [JsonProperty("ch")]
         public decimal? Change { get; set; }
 
@@ -33,19 +33,19 @@ namespace Paribu.Net.SocketObjects
 
         [JsonProperty("a")]
         public decimal? Average24H { get; set; }
-        
+
         [JsonProperty("g")]
         public decimal? VolumeQuote { get; set; }
 
         [JsonProperty("b")]
         public decimal? Bid { get; set; }
-        
+
         [JsonProperty("s")]
         public decimal? Ask { get; set; }
-        
+
         [JsonProperty("es")]
         public decimal? EAsk { get; set; }
-        
+
         [JsonProperty("eb")]
         public decimal? EBid { get; set; }
 

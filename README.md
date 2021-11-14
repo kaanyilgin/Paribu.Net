@@ -138,25 +138,40 @@ Paribu.Net provides two clients to interact with the Paribu API. The  `ParibuCli
 ## Rest Api Examples
 **Public Endpoints**
 ```C#
-ParibuClient api = new ParibuClient();
+// Rest Api Client
+var api = new ParibuClient();
 
-/* Initials Data */
+/* Public Endpoints */
 var p01 = api.GetInitials();
-var p02 = api.GetBanners();
-var p03 = api.GetDisplayGroups();
-var p04 = api.GetExchangeConfig();
-var p05 = api.GetCurrencies();
-var p06 = api.GetMarkets();
-var p07 = api.GetInitialTickers();
-
-/* Ticker Data */
-var p11 = api.GetTickers();
-
-/* Market Data */
-var p21 = api.GetMarketData("btc-tl");
-var p22 = api.GetCandles("btc-tl");
-var p23 = api.GetOrderBook("btc-tl");
-var p24 = api.GetTrades("btc-tl");
+var p02 = api.GetTickers();
+var p03 = api.GetMarketData("btc-tl");
+var p04 = api.GetChartData("btc-tl");
+var p05 = api.Register("John Doe", "a@b.com", "532XXXXXXX", "Pa55w0rd");
+var p06 = api.RegisterTwoFactor(p05.Data.Token, "---CODE---");
+var p07 = api.Login("532XXXXXXX", "Pa55w0rd");
+var p08 = api.LoginTwoFactor(p07.Data.Token, "---CODE---");
+api.SetAccessToken(p08.Data.Token);
+            
+/* Private Endpoints */
+var p11 = api.GetUserInitials();
+var p12 = api.GetOpenOrders();
+var p13 = api.PlaceOrder("usdt-tl", OrderSide.Sell, OrderType.Limit, 110.0m, 10.0m, 11.0m);
+var p14 = api.CancelOrder("j1kwxq9l-eyr6-7yzg-ogkd-6gp843dzvn5o");
+var p15 = api.CancelOrders("usdt-tl");
+var p16 = api.CancelOrders("all");
+var p21 = api.GetAlerts();
+var p22 = api.SetAlert("usdt-tl", 9.25m);
+var p23 = api.SetAlert("usdt-tl", 10.25m);
+var p24 = api.SetAlert("btc-tl", 620000m);
+var p25 = api.SetAlert("btc-tl", 660000m);
+var p26 = api.CancelAlert("1z4r65mv-qe3l-29oj-l40d-278ydpnxj90g");
+var p27 = api.CancelAlerts("eth-tl");
+var p28 = api.CancelAlerts("all");
+var p31 = api.GetBalances();
+var p32 = api.GetDepositAddresses();
+var p33 = api.Withdraw("tl", 1000.0m, "---IBAN---");
+var p34 = api.Withdraw("usdt", 100.0m, "---USDT-ADDRESS---", "", "trx");
+var p35 = api.CancelWithdrawal(p34.Data.Id);
 ```
 
 ## Websocket Api Examples
@@ -220,6 +235,10 @@ _ = ws.Unsubscribe(sub02.Data);
 ```
 
 ## Release Notes
+* Version 3.0.0 - 14 Nov 2021
+    * Implemented Paribu V3 API
+    * Synced with CryptoExchange.Net v4.2.8
+
 * Version 2.5.0 - 18 Sep 2021
     * Synced with CryptoExchange.Net v4.1.0
 

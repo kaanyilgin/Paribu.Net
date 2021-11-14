@@ -13,34 +13,34 @@ namespace Paribu.Net.RestObjects
 
     public class ParibuTicker
     {
-        [JsonProperty("lowestAsk")]
-        public decimal LowestAsk { get; set; }
+        [JsonProperty("pair")]
+        public string Symbol { get; set; }
 
-        [JsonProperty("highestBid")]
-        public decimal HighestBid { get; set; }
+        [JsonProperty("high")]
+        public decimal High { get; set; }
 
-        [JsonProperty("low24hr")]
-        public decimal Low24H { get; set; }
+        [JsonProperty("low")]
+        public decimal Low { get; set; }
 
-        [JsonProperty("high24hr")]
-        public decimal High24H { get; set; }
+        [JsonProperty("bid")]
+        public decimal Bid { get; set; }
 
-        [JsonProperty("avg24hr")]
-        public decimal Average24H { get; set; }
+        [JsonProperty("ask")]
+        public decimal Ask { get; set; }
+
+        [JsonProperty("open")]
+        public decimal Open { get; set; }
+
+        [JsonProperty("close")]
+        public decimal Cose { get; set; }
 
         [JsonProperty("volume")]
         public decimal Volume { get; set; }
 
-        [JsonProperty("last")]
-        public decimal Last { get; set; }
+        [JsonProperty("average")]
+        public decimal Average { get; set; }
 
         [JsonProperty("change")]
         public decimal Change { get; set; }
-
-        [JsonProperty("percentChange")]
-        public decimal PercentChange { get; set; }
-
-        //[JsonProperty("chartData")]
-        //public IEnumerable<decimal> ChartData { get; set; }
     }
 }

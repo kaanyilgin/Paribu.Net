@@ -17,7 +17,7 @@ namespace Paribu.Net.RestObjects
         [JsonProperty("price")]
         public decimal Price { get; set; }
 
-        [JsonProperty("trade"), JsonConverter(typeof(TradeSideConverter))]
-        public ParibuTradeSide Side { get; set; }
+        [JsonProperty("trade"), JsonConverter(typeof(OrderSideConverter))]
+        public OrderSide Side { get; set; }
     }
 }
