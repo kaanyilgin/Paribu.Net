@@ -76,13 +76,13 @@ namespace Paribu.Net
                     {
                         onPriceSeriesData(new ParibuSocketPriceSeries
                         {
-                            Pair = ticker.Key,
+                            Symbol = ticker.Key,
                             Prices = ticker.Value.PriceSeries,
                         });
                     }
                     else
                     {
-                        ticker.Value.Pair = ticker.Key;
+                        ticker.Value.Symbol = ticker.Key;
                         onTickerData(ticker.Value);
                     }
                 }
@@ -93,14 +93,14 @@ namespace Paribu.Net
         }
 
         public virtual CallResult<UpdateSubscription> SubscribeToMarketData(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData) => SubscribeToMarketDataAsync(pair, onOrderBookData, onTradeData).Result;
-        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string pair, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
+        public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarketDataAsync(string symbol, Action<ParibuSocketOrderBook> onOrderBookData, Action<ParibuSocketTrade> onTradeData)
         {
             var internalHandler = new Action<DataEvent<ParibuSocketResponse>>(data =>
             {
                 var patch = JsonConvert.DeserializeObject<SocketPatch<object>>(data.Data.Data);
                 if (patch.Index == "orderBook")
                 {
-                    var pob = new ParibuSocketOrderBook { Pair = pair };
+                    var pob = new ParibuSocketOrderBook { Symbol = symbol };
                     var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<SocketOrderBook>>>(data.Data.Data.Replace(",\"merge\":[],", ",\"merge\":{},"));
 
                     if (json.Patch.Merge.Asks != null && json.Patch.Merge.Asks.Data != null && json.Patch.Merge.Asks.Data.Count > 0)
@@ -131,13 +131,13 @@ namespace Paribu.Net
                     var json = JsonConvert.DeserializeObject<SocketPatch<SocketMerge<IEnumerable<ParibuSocketTrade>>>>(data.Data.Data);
                     foreach (var trade in json.Patch.Merge)
                     {
-                        trade.Pair = pair;
+                        trade.Symbol = symbol;
                         onTradeData(trade);
                     }
                 }
             });
 
-            var request = new ParibuSocketRequest<ParibuSocketSubscribeRequest> { Event = "pusher:subscribe", Data = new ParibuSocketSubscribeRequest { Auth = "", Channel = "prb-market-" + pair.ToLower() } };
+            var request = new ParibuSocketRequest<ParibuSocketSubscribeRequest> { Event = "pusher:subscribe", Data = new ParibuSocketSubscribeRequest { Auth = "", Channel = "prb-market-" + symbol.ToLower() } };
             return await SubscribeAsync(request, null, false, internalHandler).ConfigureAwait(false);
         }
 

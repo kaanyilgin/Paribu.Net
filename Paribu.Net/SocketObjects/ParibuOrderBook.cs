@@ -4,7 +4,7 @@ namespace Paribu.Net.SocketObjects
 {
     public class ParibuSocketOrderBook
     {
-        public string Pair { get; set; }
+        public string Symbol { get; set; }
 
         public List<ParibuSocketOrderBookEntry> BidsToAdd { get; set; }
         public List<ParibuSocketOrderBookEntry> BidsToRemove { get; set; }

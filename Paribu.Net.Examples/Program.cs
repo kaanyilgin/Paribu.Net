@@ -52,7 +52,7 @@ namespace Paribu.Net.Examples
             {
                 if (data != null)
                 {
-                    Console.WriteLine($"Ticker State >> {data.Pair} " +
+                    Console.WriteLine($"Ticker State >> {data.Symbol} " +
                         (data.Open.HasValue ? $"O:{data.Open} " : "") +
                         (data.High.HasValue ? $"H:{data.High} " : "") +
                         (data.Low.HasValue ? $"L:{data.Low} " : "") +
@@ -72,7 +72,7 @@ namespace Paribu.Net.Examples
             {
                 if (data != null)
                 {
-                    Console.WriteLine($"Ticker Prices >> {data.Pair} C:{data.Prices.Count()} P:{string.Join(',', data.Prices)}");
+                    Console.WriteLine($"Ticker Prices >> {data.Symbol} C:{data.Prices.Count()} P:{string.Join(',', data.Prices)}");
                 }
             });
 
@@ -81,7 +81,7 @@ namespace Paribu.Net.Examples
             {
                 if (data != null)
                 {
-                    Console.WriteLine($"Book Update >> {data.Pair} " +
+                    Console.WriteLine($"Book Update >> {data.Symbol} " +
                         $"AsksToAdd:{data.AsksToAdd.Count} " +
                         $"BidsToAdd:{data.BidsToAdd.Count} " +
                         $"AsksToRemove:{data.AsksToRemove.Count} " +
@@ -92,7 +92,7 @@ namespace Paribu.Net.Examples
             {
                 if (data != null)
                 {
-                    Console.WriteLine($"New Trade >> {data.Pair} T:{data.Timestamp} P:{data.Price} A:{data.Amount} S:{data.Side}");
+                    Console.WriteLine($"New Trade >> {data.Symbol} T:{data.Timestamp} P:{data.Price} A:{data.Amount} S:{data.Side}");
                 }
             });
 

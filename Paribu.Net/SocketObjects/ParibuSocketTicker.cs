@@ -8,7 +8,7 @@ namespace Paribu.Net.SocketObjects
     /// </summary>
     public class ParibuSocketTicker
     {
-        public string Pair { get; set; }
+        public string Symbol { get; set; }
 
         [JsonProperty("o")]
         public decimal? Open { get; set; }
@@ -55,7 +55,7 @@ namespace Paribu.Net.SocketObjects
 
     public class ParibuSocketPriceSeries
     {
-        public string Pair { get; set; }
+        public string Symbol { get; set; }
 
         public IEnumerable<decimal> Prices { get; set; }
     }

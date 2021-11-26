@@ -473,7 +473,7 @@ namespace Paribu.Net
             string symbol,
             OrderSide side,
             OrderType type,
-            decimal total,
+            decimal? total = null,
             decimal? amount = null,
             decimal? price = null,
             decimal? condition = null,
@@ -495,7 +495,7 @@ namespace Paribu.Net
             string symbol,
             OrderSide side,
             OrderType type,
-            decimal total,
+            decimal? total = null,
             decimal? amount = null,
             decimal? price = null,
             decimal? condition = null,
@@ -506,9 +506,9 @@ namespace Paribu.Net
                 { "market", symbol},
                 { "trade", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
                 { "type", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
-                { "total", total.ToString(CultureInfo.InvariantCulture)},
             };
             if (amount.HasValue) parameters.AddOptionalParameter("amount", amount.Value.ToString(CultureInfo.InvariantCulture));
+            if (total.HasValue) parameters.AddOptionalParameter("total", amount.Value.ToString(CultureInfo.InvariantCulture));
             if (price.HasValue) parameters.AddOptionalParameter("price", price.Value.ToString(CultureInfo.InvariantCulture));
             if (condition.HasValue) parameters.AddOptionalParameter("condition", condition.Value.ToString(CultureInfo.InvariantCulture));
 

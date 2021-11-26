@@ -235,6 +235,9 @@ _ = ws.Unsubscribe(sub02.Data);
 ```
 
 ## Release Notes
+* Version 3.0.1 - 26 Nov 2021
+    * Fixed some minor bugs
+
 * Version 3.0.0 - 14 Nov 2021
     * Implemented Paribu V3 API
     * Synced with CryptoExchange.Net v4.2.8

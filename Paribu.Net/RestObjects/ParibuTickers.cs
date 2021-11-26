@@ -32,7 +32,7 @@ namespace Paribu.Net.RestObjects
         public decimal Open { get; set; }
 
         [JsonProperty("close")]
-        public decimal Cose { get; set; }
+        public decimal Close { get; set; }
 
         [JsonProperty("volume")]
         public decimal Volume { get; set; }
