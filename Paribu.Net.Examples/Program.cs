@@ -18,40 +18,6 @@ namespace Paribu.Net.Examples
 
 
 
-
-
-            api.SetAccessToken("DSiuNfKP6wQ5FROXEk5B0JWndCcglmMyX2KuYTm5");
-
-            var xxx = api.GetBalances();
-            if (xxx.Success)
-            {
-                foreach (var balance in xxx.Data)
-                {
-                    Console.WriteLine($"{balance.Key} Total:{balance.Value.Total} Available:{balance.Value.Available}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Hata:" + xxx.Error.Message);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             #region Login Usage
             Console.Write("Telefon Numarasını Giriniz: ");
             var telefon = Console.ReadLine();
