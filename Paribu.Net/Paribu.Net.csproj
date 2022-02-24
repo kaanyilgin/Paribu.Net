@@ -8,10 +8,10 @@
   <PropertyGroup>
     <PackageId>Paribu.Net</PackageId>
     <Authors>Burak Öner</Authors>
-    <Version>3.0.1</Version>
-    <FileVersion>3.0.1</FileVersion>
-    <PackageVersion>3.0.1</PackageVersion>
-    <AssemblyVersion>3.0.1</AssemblyVersion>
+    <Version>3.4.2.0</Version>
+    <FileVersion>3.4.2.0</FileVersion>
+    <PackageVersion>3.4.2.0</PackageVersion>
+    <AssemblyVersion>3.4.2.0</AssemblyVersion>
     <Description>Paribu.Net is a .Net wrapper for the Paribu API. It includes supports all endpoints</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Paribu Paribu.Net C# .Net CryptoCurrency Exchange API Wrapper</PackageTags>
@@ -19,7 +19,8 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-		Version 3.0.1 - 26 Nov 2021
+		Version 3.4.2.0 - 24 Feb 2022
+		- Uppdated App Version to 342
 		- Fixed minor bugs
 	</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>

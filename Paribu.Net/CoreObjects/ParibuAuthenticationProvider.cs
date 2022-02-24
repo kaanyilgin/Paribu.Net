@@ -21,8 +21,8 @@ namespace Paribu.Net.CoreObjects
         {
             var headers = new Dictionary<string, string>
             {
-                { "user-agent", "ParibuApp/337 (Android 12)" },
-                { "x-app-version", "337" },
+                { "user-agent", "ParibuApp/342 (Android 12)" },
+                { "x-app-version", "342" },
             };
 
             // Check Point

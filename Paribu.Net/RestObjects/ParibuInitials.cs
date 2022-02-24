@@ -8,14 +8,14 @@ namespace Paribu.Net.RestObjects
 {
     public class ParibuInitials
     {
-        [JsonProperty("config")]
-        public ParibuExchangeConfig ExchangeConfig { get; set; }
-
         [JsonProperty("bannerContent")]
         public IEnumerable<ParibuBanner> Banners { get; set; }
 
         [JsonProperty("displayGroups")]
         public ParibuDisplayGroups DisplayGroups { get; set; }
+
+        [JsonProperty("config")]
+        public ParibuExchangeConfig ExchangeConfig { get; set; }
 
         [JsonProperty("currencies")]
         private ParibuInitialsCurrencies CurrenciesContainer { get; set; }

@@ -12,6 +12,9 @@ namespace Paribu.Net.CoreObjects
 
         [JsonProperty("notice")]
         public string Notice { get; set; }
+        
+        [JsonProperty("display")]
+        public string Display { get; set; }
 
         [JsonProperty("data")]
         public T Data { get; set; }

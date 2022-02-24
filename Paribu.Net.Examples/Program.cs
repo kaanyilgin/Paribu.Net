@@ -1,5 +1,7 @@
-﻿using Paribu.Net.Enums;
+﻿using Paribu.Net.CoreObjects;
+using Paribu.Net.Enums;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Paribu.Net.Examples
@@ -9,7 +11,103 @@ namespace Paribu.Net.Examples
         static void Main(string[] args)
         {
             // Rest Api Client
-            var api = new ParibuClient();
+            var api = new ParibuClient(new ParibuClientOptions
+            {
+                 LogLevel = Microsoft.Extensions.Logging.LogLevel.Debug
+            });
+
+
+
+
+
+            api.SetAccessToken("DSiuNfKP6wQ5FROXEk5B0JWndCcglmMyX2KuYTm5");
+
+            var xxx = api.GetBalances();
+            if (xxx.Success)
+            {
+                foreach (var balance in xxx.Data)
+                {
+                    Console.WriteLine($"{balance.Key} Total:{balance.Value.Total} Available:{balance.Value.Available}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Hata:" + xxx.Error.Message);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            #region Login Usage
+            Console.Write("Telefon Numarasını Giriniz: ");
+            var telefon = Console.ReadLine();
+            
+            Console.Write("Şifrenizi Giriniz: ");
+            var sifre = Console.ReadLine();
+
+            var token = "";
+            var login = api.Login(telefon, sifre);
+            if (login.Success)
+            {
+                Console.Write("OTP Şifresini Giriniz: ");
+                var otpcode = Console.ReadLine();
+
+                var loginOtp = api.LoginTwoFactor(login.Data.Token, otpcode);
+                if (loginOtp.Success)
+                {
+                    token = loginOtp.Data.Token;
+                    Console.WriteLine("Giriş İşlemi Başarılı. Paribu Token: " + loginOtp.Data.Token);
+                    Debug.WriteLine("Giriş İşlemi Başarılı. Paribu Token: " + loginOtp.Data.Token);
+                    Console.ReadLine();
+
+
+                    var pxx = api.GetBalances();
+                    if (pxx.Success)
+                    {
+                        foreach (var balance in pxx.Data)
+                        {
+                            Console.WriteLine($"{balance.Key} Total:{balance.Value.Total} Available:{balance.Value.Available}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hata:" + pxx.Error.Message);
+                    }
+                    Console.ReadLine();
+
+                }
+                else
+                {
+                    Console.WriteLine("Hata Oluştu. Kullanıcı Adı/Şifre yanlış olabilir.");
+                    Console.WriteLine("Çıkmak için <ENTER>'a basın.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Hata Oluştu. Kullanıcı Adı/Şifre yanlış olabilir.");
+                Console.WriteLine("Çıkmak için <ENTER>'a basın.");
+            }
+            Environment.Exit(0);
+            #endregion
+
+
+
+
+
 
             /* Public Endpoints */
             var p01 = api.GetInitials();
