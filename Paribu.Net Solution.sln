@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paribu.Net", "Paribu.Net\Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paribu.Net.Examples", "Paribu.Net.Examples\Paribu.Net.Examples.csproj", "{D57F269C-1756-4B53-9BAC-1E7843A869D3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{322D7D88-4E4F-483B-92EC-EB0878986758}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asp.NetCore.Mvc", "Examples\Asp.NetCore.Mvc\Asp.NetCore.Mvc.csproj", "{8A513A9B-77CC-45FC-8026-8066082AD7EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +31,19 @@ Global
 		{D57F269C-1756-4B53-9BAC-1E7843A869D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D57F269C-1756-4B53-9BAC-1E7843A869D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D57F269C-1756-4B53-9BAC-1E7843A869D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A513A9B-77CC-45FC-8026-8066082AD7EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A513A9B-77CC-45FC-8026-8066082AD7EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A513A9B-77CC-45FC-8026-8066082AD7EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A513A9B-77CC-45FC-8026-8066082AD7EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51387E2E-54C4-4DBD-850C-3CAB9AA33BB7}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D57F269C-1756-4B53-9BAC-1E7843A869D3} = {322D7D88-4E4F-483B-92EC-EB0878986758}
+		{8A513A9B-77CC-45FC-8026-8066082AD7EF} = {322D7D88-4E4F-483B-92EC-EB0878986758}
 	EndGlobalSection
 EndGlobal

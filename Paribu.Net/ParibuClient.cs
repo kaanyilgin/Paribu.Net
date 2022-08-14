@@ -15,10 +15,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Paribu.Net.Contracts;
 
 namespace Paribu.Net
 {
-    public class ParibuClient : RestClient, IRestClient
+    public class ParibuClient : RestClient, IRestClient, IParibuClient
     {
         #region Client Options
         protected static ParibuClientOptions defaultOptions = new ParibuClientOptions();
